@@ -73,7 +73,18 @@ mayorYMenor (x:xs) = Just (aux x x xs)
 
 -- A3
 leerHora :: String -> Either String (Int, Int)
-leerHora = undefined
+leerHora [h1, h2, ':', m1, m2]
+  | isDigit h1 && isDigit h2 && isDigit m1 && isDigit m2 =
+      let h = digitToInt h1 * 10 + digitToInt h2
+          m = digitToInt m1 * 10 + digitToInt m2
+      in if h > 23 then
+           Left "hora fuera de rango"
+         else if m > 59 then
+           Left "minutos fuera de rango"
+         else
+           Right (h, m)
+  | otherwise = Left "formato inválido"
+leerHora _ = Left "formato inválido"
 
 duracion :: String -> String -> Either String Int
 duracion = undefined
