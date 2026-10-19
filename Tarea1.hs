@@ -57,19 +57,19 @@ esPalindromo xs =
 -- A2
 -- Explica aquí, en dos o tres líneas, por qué tu solución recorre la
 -- lista una sola vez:
--- Se inicializa el par acumulador con el primer elemento como máximo y mínimo,
--- y una función auxiliar recursiva recorre el resto de la lista elemento a
--- elemento actualizando ambos extremos en cada paso en un único pase O(n).
+-- Se inicializan los extremos con la cabeza de la lista y la función auxiliar
+-- consume la cola en un único pase inductivo O(n), usando guardias excluyentes
+-- para actualizar (mayor, menor) sin necesidad de recorrer la lista de nuevo.
 mayorYMenor :: Ord a => [a] -> Maybe (a, a)
 mayorYMenor []     = Nothing
 mayorYMenor (x:xs) = Just (aux x x xs)
   where
     aux :: Ord a => a -> a -> [a] -> (a, a)
-    aux mx mn []     = (mx, mn)
-    aux mx mn (y:ys) =
-      let mx' = if y > mx then y else mx
-          mn' = if y < mn then y else mn
-      in aux mx' mn' ys
+    aux mx mn [] = (mx, mn)
+    aux mx mn (y:ys)
+      | y > mx    = aux y mn ys
+      | y < mn    = aux mx y ys
+      | otherwise = aux mx mn ys
 
 -- A3
 leerHora :: String -> Either String (Int, Int)
