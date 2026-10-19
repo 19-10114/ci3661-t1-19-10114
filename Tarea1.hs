@@ -87,7 +87,17 @@ leerHora [h1, h2, ':', m1, m2]
 leerHora _ = Left "formato inválido"
 
 duracion :: String -> String -> Either String Int
-duracion = undefined
+duracion s1 s2 =
+  case leerHora s1 of
+    Left err1 -> Left err1
+    Right (h1, m1) ->
+      case leerHora s2 of
+        Left err2 -> Left err2
+        Right (h2, m2) ->
+          let t1 = h1 * 60 + m1
+              t2 = h2 * 60 + m2
+              diff = t2 - t1
+          in Right (if diff < 0 then diff + 1440 else diff)
 
 -- =====================================================================
 -- Parte B: orden superior.
