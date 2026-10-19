@@ -1,0 +1,13 @@
+# Haskell compilation artifacts
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+
+# Binaries
+*.exe
+PruebasTarea1
+
+# Enunciado y temporales
+*.tmp
+tarea1.pdf
