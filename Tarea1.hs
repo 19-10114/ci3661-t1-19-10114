@@ -6,7 +6,8 @@
 --
 --  Declaración de uso de herramientas de IA (obligatoria, ver enunciado):
 --  Se utilizó Antigravity (asistente de IA) para discusión conceptual,
---  análisis del enunciado, estructura de pruebas y asistencia en desarrollo.
+--  análisis del enunciado, estructura de pruebas, asistencia en desarrollo
+--  y análisis de robustez y casos borde en las funciones implementadas.
 --
 -- =====================================================================
 --  No cambies el nombre del módulo ni la lista de exportación, ni las
@@ -56,9 +57,19 @@ esPalindromo xs =
 -- A2
 -- Explica aquí, en dos o tres líneas, por qué tu solución recorre la
 -- lista una sola vez:
---
+-- Se inicializa el par acumulador con el primer elemento como máximo y mínimo,
+-- y una función auxiliar recursiva recorre el resto de la lista elemento a
+-- elemento actualizando ambos extremos en cada paso en un único pase O(n).
 mayorYMenor :: Ord a => [a] -> Maybe (a, a)
-mayorYMenor = undefined
+mayorYMenor []     = Nothing
+mayorYMenor (x:xs) = Just (aux x x xs)
+  where
+    aux :: Ord a => a -> a -> [a] -> (a, a)
+    aux mx mn []     = (mx, mn)
+    aux mx mn (y:ys) =
+      let mx' = if y > mx then y else mx
+          mn' = if y < mn then y else mn
+      in aux mx' mn' ys
 
 -- A3
 leerHora :: String -> Either String (Int, Int)
