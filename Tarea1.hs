@@ -36,7 +36,22 @@ import Data.Char (isAlphaNum, isDigit, toLower, digitToInt)
 
 -- A1
 esPalindromo :: String -> Bool
-esPalindromo = undefined
+esPalindromo xs =
+  let limpia = limpiar xs
+  in limpia == reverso limpia
+  where
+    limpiar :: String -> String
+    limpiar [] = []
+    limpiar (c:cs)
+      | isAlphaNum c = toLower c : limpiar cs
+      | otherwise    = limpiar cs
+
+    reverso :: [a] -> [a]
+    reverso ys = revAux ys []
+      where
+        revAux :: [a] -> [a] -> [a]
+        revAux [] acc     = acc
+        revAux (z:zs) acc = revAux zs (z : acc)
 
 -- A2
 -- Explica aquí, en dos o tres líneas, por qué tu solución recorre la
