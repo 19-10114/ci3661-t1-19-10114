@@ -120,7 +120,16 @@ promedioSobreUmbral umbral xs =
 
 -- B2
 movimientosCaballo :: (Int, Int) -> [(Int, Int)]
-movimientosCaballo = undefined
+movimientosCaballo (r, c) =
+  [ (r + dr, c + dc)
+  | (dr, dc) <- [ (-2, -1), (-2, 1)
+                , (-1, -2), (-1, 2)
+                , (1, -2),  (1, 2)
+                , (2, -1),  (2, 1)
+                ]
+  , r + dr >= 1, r + dr <= 8
+  , c + dc >= 1, c + dc <= 8
+  ]
 
 enDosSaltos :: (Int, Int) -> Int
 enDosSaltos = undefined
