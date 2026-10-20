@@ -132,7 +132,10 @@ movimientosCaballo (r, c) =
   ]
 
 enDosSaltos :: (Int, Int) -> Int
-enDosSaltos = undefined
+enDosSaltos pos =
+  let dosSaltos = [ p2 | p1 <- movimientosCaballo pos, p2 <- movimientosCaballo p1 ]
+      unicos    = foldr (\x acc -> if elem x acc then acc else x : acc) [] dosSaltos
+  in length unicos
 
 -- B3
 miMap :: (a -> b) -> [a] -> [b]
