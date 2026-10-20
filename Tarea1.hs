@@ -115,8 +115,8 @@ promedioSobreUmbral umbral xs =
   where
     paso :: (Double, Int) -> Double -> (Double, Int)
     paso (s, c) x
-      | x >= umbral = (s + x, c + 1)
-      | otherwise   = (s, c)
+      | x > umbral = (s + x, c + 1)
+      | otherwise  = (s, c)
 
 -- B2
 movimientosCaballo :: (Int, Int) -> [(Int, Int)]
