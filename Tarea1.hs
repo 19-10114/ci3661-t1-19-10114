@@ -36,6 +36,8 @@ import Data.Char (isAlphaNum, isDigit, toLower, digitToInt)
 -- =====================================================================
 
 -- A1
+-- Limpia los caracteres no alfanumericos y los pasa a minusculas antes de
+-- verificar la simetria de la cadena. Ambas operaciones usan recursion explicita.
 esPalindromo :: String -> Bool
 esPalindromo xs =
   let limpia = limpiar xs
@@ -72,6 +74,8 @@ mayorYMenor (x:xs) = Just (aux x x xs)
       | otherwise = aux mx mn ys
 
 -- A3
+-- Parsea una hora en formato HH:MM verificando tamañoo, separador y digitos.
+-- Valida los rangos de hora y minutos, priorizando el error de hora si ambos fallan.
 leerHora :: String -> Either String (Int, Int)
 leerHora [h1, h2, ':', m1, m2]
   | isDigit h1 && isDigit h2 && isDigit m1 && isDigit m2 =
@@ -86,6 +90,8 @@ leerHora [h1, h2, ':', m1, m2]
   | otherwise = Left "formato inválido"
 leerHora _ = Left "formato inválido"
 
+-- Calcula la diferencia en minutos entre dos horas parseadas con leerHora.
+-- Si la segunda hora es menor que la primera, se asume que paso la medianoche (+1440).
 duracion :: String -> String -> Either String Int
 duracion s1 s2 =
   case leerHora s1 of
@@ -106,6 +112,8 @@ duracion s1 s2 =
 -- =====================================================================
 
 -- B1
+-- Calcula el promedio de elementos estrictamente mayores al umbral usando un solo
+-- foldl con tupla (suma, cuenta). Devuelve Nothing si no hay elementos que cumplan.
 promedioSobreUmbral :: Double -> [Double] -> Maybe Double
 promedioSobreUmbral umbral xs =
   let (suma, cuenta) = foldl paso (0.0, 0 :: Int) xs
@@ -119,6 +127,8 @@ promedioSobreUmbral umbral xs =
       | otherwise  = (s, c)
 
 -- B2
+-- Genera mediante lista por comprension los desplazamientos validos del caballo,
+-- produciendo las casillas directamente en orden lexicografico y dentro del tablero.
 movimientosCaballo :: (Int, Int) -> [(Int, Int)]
 movimientosCaballo (r, c) =
   [ (r + dr, c + dc)
@@ -131,6 +141,8 @@ movimientosCaballo (r, c) =
   , c + dc >= 1, c + dc <= 8
   ]
 
+-- Obtiene todas las casillas alcanzables tras dos saltos consecutivos y
+-- elimina duplicados aplicando foldr sobre la lista de destinos.
 enDosSaltos :: (Int, Int) -> Int
 enDosSaltos pos =
   let dosSaltos = [ p2 | p1 <- movimientosCaballo pos, p2 <- movimientosCaballo p1 ]
@@ -138,12 +150,16 @@ enDosSaltos pos =
   in length unicos
 
 -- B3
+-- Aplica la funcion f a cada elemento conservando el orden mediante foldr.
 miMap :: (a -> b) -> [a] -> [b]
 miMap f = foldr (\x acc -> f x : acc) []
 
+-- Filtra los elementos que satisfacen el predicado p mediante foldr.
 miFilter :: (a -> Bool) -> [a] -> [a]
 miFilter p = foldr (\x acc -> if p x then x : acc else acc) []
 
+-- Simula la asociatividad a la izquierda de foldl componiendo funciones
+-- mediante foldr, que luego se evaluan sobre el acumulador inicial z.
 miFoldl :: (b -> a -> b) -> b -> [a] -> b
 miFoldl f z xs = foldr paso id xs z
   where
