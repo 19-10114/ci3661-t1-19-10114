@@ -147,5 +147,4 @@ miFilter p = foldr (\x acc -> if p x then x : acc else acc) []
 miFoldl :: (b -> a -> b) -> b -> [a] -> b
 miFoldl f z xs = foldr paso id xs z
   where
-    paso :: a -> (b -> b) -> (b -> b)
     paso x g acc = g (f acc x)
